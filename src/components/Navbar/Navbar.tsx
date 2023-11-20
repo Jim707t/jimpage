@@ -7,11 +7,11 @@ import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 
 export default function Navbar() {
   return (
-    <div className="container mx-auto py-10 border-b-2 border-gray-300">
+    <div className="container mx-auto p-10 rounded-md border-b-2 border-gray-300">
       <div className="flex flex-col md:flex-row items-center justify-center">
         <div className="order-2 md:order-1 md:mr-4 text-center md:text-left">
           <h1 className="text-2xl sm:text-4xl font-bold mb-2 md:mb-0">Jim Quincy Nemorin</h1>
-          <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-xl mt-3 text-gray-300">
+          <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-xl mt-2 text-gray-300">
             I just like to build and learn useful things.
           </p>
           <div className="flex space-x-4 mt-4 items-center md:items-start justify-center md:justify-start">
@@ -34,7 +34,10 @@ export default function Navbar() {
             </Link>
           </div>
           <p className="mt-2 sm:mt-0">
-            Contact: <a href="mailto:jimquincy@jimquincy.tech" className="text-blue-500 hover:underline">jquincy@jimquincy.tech</a>
+            <span className="text-gray-500">Contact:</span>{" "}
+            <a href="mailto:jimquincy@jimquincy.tech" className="text-blue-500 hover:underline">
+              jquincy@jimquincy.tech
+            </a>
           </p>
         </div>
 
