@@ -23,7 +23,7 @@ export default function Home() {
     {
       id: 2,
       name: "Prompt engineer",
-      title: "I can build with LLM. Advanced knowledge prompting." 
+      title: "I can build product with LLM API. I have advanced knowledge about prompting technics." 
     }
   ];
 
