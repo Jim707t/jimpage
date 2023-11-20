@@ -5,7 +5,7 @@ export default function Home() {
     {
       id: 1,
       name: "Some Basic Model",
-      description: 'A <a href="https://github.com/name/Models" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline">cs50ai pset</a> I have worked on.',
+      description: 'A <a href="https://github.com/jim707t/Models" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline">cs50ai pset</a> I have worked on.',
     },
     {
       id: 2,

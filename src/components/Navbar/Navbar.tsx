@@ -21,13 +21,13 @@ export default function Navbar() {
               { href: "https://www.threads.net/@jim707t", icon: faSquareThreads },
               { href: "https://blog.jimquincy.tech/", icon: FaRss, size: "10" },
             ].map((item, index) => (
-              <Link key={index} href={item.href} legacyBehavior>
+              <Link key={index} href={item.href} legacyBehavior target="_blank">
                 <a className="text-white-500 hover:text-gray-500">
                   <FontAwesomeIcon icon={item.icon} size={item.size as SizeProp || "2x"} />
                 </a>
               </Link>
             ))}
-            <Link href={"https://blog.jimquincy.tech/"} legacyBehavior>
+            <Link href={"https://blog.jimquincy.tech/"} legacyBehavior target="_blank">
               <a className="text-white-500 hover:text-gray-500">
                 <FaRss size={30} />
               </a>
@@ -35,7 +35,7 @@ export default function Navbar() {
           </div>
           <p className="mt-2 sm:mt-0">
             <span className="text-gray-500">Contact:</span>{" "}
-            <a href="mailto:jimquincy@jimquincy.tech" className="text-blue-500 hover:underline">
+            <a href="mailto:jimquincy@jimquincy.tech" className="text-blue-500 hover:underline" target="_blank">
               jquincy@jimquincy.tech
             </a>
           </p>
