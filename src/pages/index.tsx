@@ -20,6 +20,11 @@ export default function Home() {
       name: "DL Practitioner",
       title: "I have some basic experience with deep learning and am continuously learning and experimenting.",
     },
+    {
+      id: 2,
+      name: "Prompt engineer",
+      title: "I can build with LLM. Advanced knowledge prompting." 
+    }
   ];
 
   projects.reverse();
