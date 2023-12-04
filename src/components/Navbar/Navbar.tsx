@@ -26,11 +26,9 @@ export default function Navbar() {
                 </a>
               </Link>
             ))}
-            <Link href={"https://jim707t.substack.com/"} legacyBehavior>
-              <a className="text-white-500 hover:text-gray-500" target="_blank">
+              <a href="https://jim707t.substack.com/" className="text-white-500 hover:text-gray-500" target="_blank">
                 <FaRss size={30} />
               </a>
-            </Link>
           </div>
           <p className="mt-2 sm:mt-0">
             <span className="text-gray-400">Contact:</span>{" "}
