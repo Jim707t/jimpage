@@ -3,7 +3,6 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import { FaRss } from "react-icons/fa";
-import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 
 export default function Navbar() {
   return (
@@ -17,7 +16,7 @@ export default function Navbar() {
           <div className="flex space-x-4 mt-4 items-center md:items-start justify-center md:justify-start">
             {[
               { href: "https://github.com/jim707t", icon: faGithub },
-              { href: "https://x.com/jim707t", icon: faXTwitter },
+              { href: "https://x.com/jimnemorin", icon: faXTwitter },
               { href: "https://www.linkedin.com/in/jim-quincy-nemorin-7106b2280/", icon: faLinkedinIn },
             ].map((item, index) => (
               <Link key={index} href={item.href} legacyBehavior target="_blank">
@@ -26,21 +25,21 @@ export default function Navbar() {
                 </a>
               </Link>
             ))}
-              <a href="https://jim707t.substack.com/" className="text-white-500 hover:text-gray-500" target="_blank">
+              <a href="https://jimnemorin.substack.com/" className="text-white-500 hover:text-gray-500" target="_blank">
                 <FaRss size={30} />
               </a>
           </div>
           <p className="mt-2 sm:mt-0">
             <span className="text-gray-400">Contact:</span>{" "}
-            <a href="mailto:jim@jim707t.com" className="text-blue-500 hover:underline" target="_blank">
-            jim@jim707t.com
+            <a href="mailto:jim@jimnemorin.com" className="text-blue-500 hover:underline" target="_blank">
+            jim@jimnemorin.com
             </a>
           </p>
         </div>
 
         <div className="order-1 md:order-2 mb-4 md:mb-0 md:ml-4">
           <Image
-            src={"/assets/Pp.jpg"}
+            src={"/assets/pfr.jpg"}
             alt="Profile"
             width={200}
             height={200}
