@@ -31,8 +31,8 @@ export default function Navbar() {
           </div>
           <p className="mt-2 sm:mt-0">
             <span className="text-gray-400">Contact:</span>{" "}
-            <a href="mailto:jim@jimnemorin.com" className="text-blue-500 hover:underline" target="_blank">
-            jim@jimnemorin.com
+            <a href="mailto:jimnemorin@proton.me" className="text-blue-500 hover:underline" target="_blank">
+            jimnemorin@proton.me
             </a>
           </p>
         </div>
