@@ -36,7 +36,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </div>
       <audio ref={audioRef} loop>
         <source src="/assets/background-music.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
+        @@@
       </audio>
       <div className="relative z-10">
         {children}
