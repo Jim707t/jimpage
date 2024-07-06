@@ -1,62 +1,55 @@
 import Layout from "@/components/Layout";
 
 export default function Home() {
-  const projects = [
+  const timeline = [
     {
-      id: 1,
-      name: "Some Basic Model",
-      description: 'A <a href="https://github.com/jim707t/Models" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline">cs50ai pset</a> I have worked on.',
+      id: 5,
+      platform: "Substack.com",
+      name: "jimnemorin.substack.com",
+      description: 'Sometime I write',
+    },
+    {
+      id: 4,
+      platform: "X.com",
+      name: "@jimnemorin",
+      description: 'I post on the everything app',
+    },
+    {
+      id: 3,
+      platform: "TikTok",
+      name: "@jimnemorin",
+      description: 'I make bizzare video on TikTok',
     },
     {
       id: 2,
-      name: "Prompt Engineering",
-      description: 'Translated educative content about prompt engineering from English to French for <a href="https://www.promptingguide.ai/" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline">promptingguide.ai</a>',
+      platform: "Instagram",
+      name: "@jimnemorin",
+      description: 'You can see my pictures on IG',
     },
-  ];
-
-  const skills = [
     {
       id: 1,
-      name: "DL Practitioner",
-      title: "I have some basic experience with deep learning and am continuously learning and experimenting.",
-    },
-    {
-      id: 2,
-      name: "Prompt engineer",
-      title: "I can build product with LLM API. I have advanced knowledge about prompting technics." 
+      platform: "YouTube",
+      name: "@jimescapes",
+      description: 'I make videos',
     }
   ];
 
-  projects.reverse();
-  skills.reverse();
-
   return (
     <Layout>
-      <div className="container mx-auto p-10 rounded-md">
-        <div>
-          <h1 className="text-4xl font-bold mb-6 text-center">Projects</h1>
-          <ul className="max-w-300 mx-auto">
-            {projects.map((project) => (
-              <li key={project.id} className="mb-4 p-4 rounded-md">
-                <h2 className="text-2xl font-bold mb-2">{project.name}</h2>
-                <p className="text-base text-gray-300" dangerouslySetInnerHTML={{ __html: project.description }} />
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Skills Section */}
-        <div>
-          <h2 className="text-4xl font-bold mb-6 text-center">Skills</h2>
-          <ul className="max-w-300 mx-auto">
-            {skills.map((skill) => (
-              <li key={skill.id} className="mb-4 p-4 rounded-md">
-                <h2 className="text-2xl font-bold mb-2">{skill.name}</h2>
-                <p className="text-base text-gray-300">{skill.title}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="container mx-auto p-10 rounded-md bg-black bg-opacity-50">
+        <h1 className="text-4xl font-bold mb-6 text-center text-white">My Online Wire</h1>
+        <ul className="max-w-300 mx-auto">
+          {timeline.map((entry) => (
+            <li key={entry.id} className="mb-4 p-4 rounded-md bg-gray-900 bg-opacity-70">
+              <div className="flex items-center">
+                <div className="ml-4">
+                  <h2 className="text-2xl font-bold mb-2 text-white">{entry.platform} - {entry.name}</h2>
+                  <p className="text-base text-gray-300">{entry.description}</p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </Layout>
   );
