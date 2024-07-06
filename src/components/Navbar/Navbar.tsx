@@ -9,7 +9,7 @@ export default function Navbar() {
     <div className="container mx-auto p-10 rounded-md border-b-2 border-gray-300">
       <div className="flex flex-col md:flex-row items-center justify-center">
         <div className="order-2 md:order-1 md:mr-4 text-center md:text-left">
-          <h1 className="text-2xl sm:text-4xl font-bold mb-2 md:mb-0">I'm Jim Quincy Nemorin</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold mb-2 md:mb-0">I&aposm Jim Quincy Nemorin</h1>
           <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg mt-2 text-gray-300">
             I work every day to become a better human being. I like to build and learn things that interest me. I'm mainly interested in technology topics, but I'm interested in much more than that. I hope that one day I will see myself as the human I want to be.
           </p>
