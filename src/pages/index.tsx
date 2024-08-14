@@ -4,7 +4,7 @@ export default function Home() {
   const timeline = [
     {
       id: 5,
-      platform: "Substack.com",
+      platform: "Substack",
       name: "jimnemorin.substack.com",
       description: 'Sometime I write',
     },
@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <Layout>
       <div className="container mx-auto p-10 rounded-md bg-black bg-opacity-50">
-        <h1 className="text-4xl font-bold mb-6 text-center text-white">My Online Wire</h1>
+        <h1 className="text-4xl font-bold mb-6 text-center text-white">Online Wire Acc</h1>
         <ul className="max-w-300 mx-auto">
           {timeline.map((entry) => (
             <li key={entry.id} className="mb-4 p-4 rounded-md bg-gray-900 bg-opacity-70">

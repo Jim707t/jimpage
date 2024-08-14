@@ -14,7 +14,7 @@ export default function Navbar() {
             I work every day to become a better human being. I like to build and learn things that interest me. Mainly interested in technology topics, but interested in much more than that. I hope that one day I will see myself as the human I want to be.
           </p>
           <p className="mt-2 sm:mt-0">
-            <span className="text-gray-100">Email me here -&gt;</span>{" "}
+            <span className="text-gray-100">Email -&gt;</span>{" "}
             <a href="mailto:jimnemorin@proton.me" className="text-blue-500 hover:underline" target="_blank">
               jimnemorin@proton.me
             </a>
