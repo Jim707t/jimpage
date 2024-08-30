@@ -9,9 +9,9 @@ export default function Navbar() {
     <div className="container mx-auto p-10 rounded-md border-b-2 border-gray-300">
       <div className="flex flex-col md:flex-row items-center justify-center">
         <div className="order-2 md:order-1 md:mr-4 text-center md:text-left">
-          <h1 className="text-2xl sm:text-4xl font-bold mb-2 md:mb-0">Jim Quincy Nemorin</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold mb-2 md:mb-0">Jim Nemorin</h1>
           <p className="text-sm sm:text-base md:text-base lg:text-lg xl:text-lg mt-2 text-gray-300">
-            The greatest battles are fought within. Damn! So relatable.
+            Pi gro batay la se avek tet nou.
           </p>
           <p className="mt-2 sm:mt-0">
             <span className="text-gray-100">Email -&gt;</span>{" "}
