@@ -1,3 +1,5 @@
+import React from 'react';
+import { motion } from 'framer-motion';
 import Layout from "@/components/Layout";
 
 export default function Home() {
@@ -6,51 +8,75 @@ export default function Home() {
       id: 5,
       platform: "Substack",
       name: "jimnemorin.substack.com",
-      description: 'Sometime I write',
+      description: 'pansem (I Write sometimes)',
+      icon: '📝'
     },
     {
       id: 4,
       platform: "X.com",
       name: "@jimnemorin",
-      description: 'I post on the everything app',
+      description: 'yon post konsa konsa (I post on X sometimes)',
+      icon: '🌐'
     },
     {
       id: 3,
       platform: "TikTok",
       name: "@jimnemorin",
-      description: 'I make bizzare video on TikTok',
+      description: 'ra videyo (I post here too but rarely)',
+      icon: '📹'
     },
     {
       id: 2,
       platform: "Instagram",
       name: "@jimnemorin",
-      description: 'You can see my pictures on IG',
+      description: 'bel app (cool app)',
+      icon: '📸'
     },
     {
       id: 1,
       platform: "YouTube",
       name: "@jimescapes",
-      description: 'I make videos',
+      description: 'Videos',
+      icon: '🎥'
     }
   ];
 
   return (
     <Layout>
-      <div className="container mx-auto p-10 rounded-md bg-black bg-opacity-50">
-        <h1 className="text-4xl font-bold mb-6 text-center text-white">Online Acc</h1>
-        <ul className="max-w-300 mx-auto">
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        className="max-w-4xl mx-auto bg-[#0a0a0f]/80 rounded-2xl p-8 border border-gray-900/30 shadow-2xl"
+      >
+        <h1 className="text-4xl font-bold text-center mb-10 text-gray-300 tracking-tight">
+          Network
+        </h1>
+        <div className="space-y-6">
           {timeline.map((entry) => (
-            <li key={entry.id} className="mb-4 p-4 rounded-md bg-gray-900 bg-opacity-70">
-              <div className="flex items-center">
-                <div className="ml-4">
-                  <h2 className="text-2xl font-bold mb-2 text-white">{entry.platform} - {entry.name}</h2>
-                  <p className="text-base text-gray-300">{entry.description}</p>
-                </div>
+            <motion.div 
+              key={entry.id}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: entry.id * 0.1 }}
+              whileHover={{ 
+                scale: 1.03, 
+                transition: { duration: 0.2 },
+                backgroundColor: 'rgba(20, 20, 30, 0.7)'
+              }}
+              className="bg-[#0f0f1a]/50 rounded-xl p-6 border border-gray-900/30 flex items-center space-x-6 hover:shadow-xl transition-all"
+            >
+              <div className="text-4xl opacity-70">{entry.icon}</div>
+              <div>
+                <h2 className="text-2xl font-semibold text-gray-300 mb-2">
+                  {entry.platform} - {entry.name}
+                </h2>
+                <p className="text-gray-500 font-mono">{entry.description}</p>
               </div>
-            </li>
+            </motion.div>
           ))}
-        </ul>
-      </div>
+        </div>
+      </motion.div>
     </Layout>
   );
 }

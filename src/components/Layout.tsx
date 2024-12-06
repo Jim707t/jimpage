@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar/Navbar';
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -8,7 +9,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   useEffect(() => {
     const audio = audioRef.current;
     if (audio) {
-      audio.volume = 0.3;  // Adjust volume as needed
+      audio.volume = 0.3;
       if (isPlaying) {
         audio.play().catch((error) => {
           console.log('Autoplay prevented:', error);
@@ -24,23 +25,35 @@ export default function Layout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#0a0a0f] to-[#0f0f1a] text-gray-300">
       <Navbar />
-      <div className="absolute top-0 right-0 m-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="fixed top-4 right-4 z-50"
+      >
         <button
           onClick={togglePlay}
-          className="px-4 py-2 bg-transparent text-gray-200 rounded-md border border-gray-800 hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400"
+          className="px-4 py-2 bg-transparent border border-gray-800 text-gray-500 rounded-full hover:bg-gray-900/30 focus:outline-none transition-colors"
         >
-          {isPlaying ? 'Pause' : 'Play'}
+          {isPlaying ? 'Pause Music' : 'Play Music'}
         </button>
-      </div>
+      </motion.div>
       <audio ref={audioRef} loop>
         <source src="/assets/background-music.mp3" type="audio/mpeg" />
-        @@@
       </audio>
-      <div className="relative z-10">
-        {children}
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.main
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5 }}
+          className="container mx-auto px-4 py-8"
+        >
+          {children}
+        </motion.main>
+      </AnimatePresence>
     </div>
   );
 }
