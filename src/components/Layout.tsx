@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           onClick={togglePlay}
           className="px-4 py-2 bg-transparent border border-gray-800 text-gray-500 rounded-full hover:bg-gray-900/30 focus:outline-none transition-colors"
         >
-          {isPlaying ? 'Pause Music' : 'Play Music'}
+          {isPlaying ? 'Pause' : 'Play'}
         </button>
       </motion.div>
       <audio ref={audioRef} loop>

@@ -47,12 +47,12 @@ export default function Home() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="max-w-4xl mx-auto bg-[#0a0a0f]/80 rounded-2xl p-8 border border-gray-900/30 shadow-2xl"
+        className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 bg-[#0a0a0f]/80 rounded-2xl py-8 border border-gray-900/30 shadow-2xl"
       >
-        <h1 className="text-4xl font-bold text-center mb-10 text-gray-300 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-10 text-gray-300 tracking-tight">
           Network
         </h1>
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {timeline.map((entry) => (
             <motion.div 
               key={entry.id}
@@ -64,14 +64,14 @@ export default function Home() {
                 transition: { duration: 0.2 },
                 backgroundColor: 'rgba(20, 20, 30, 0.7)'
               }}
-              className="bg-[#0f0f1a]/50 rounded-xl p-6 border border-gray-900/30 flex items-center space-x-6 hover:shadow-xl transition-all"
+              className="bg-[#0f0f1a]/50 rounded-xl p-4 sm:p-6 border border-gray-900/30 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 hover:shadow-xl transition-all"
             >
-              <div className="text-4xl opacity-70">{entry.icon}</div>
-              <div>
-                <h2 className="text-2xl font-semibold text-gray-300 mb-2">
+              <div className="text-3xl sm:text-4xl opacity-70 self-center">{entry.icon}</div>
+              <div className="text-center sm:text-left w-full">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-300 mb-2">
                   {entry.platform} - {entry.name}
                 </h2>
-                <p className="text-gray-500 font-mono">{entry.description}</p>
+                <p className="text-sm sm:text-base text-gray-500 font-mono">{entry.description}</p>
               </div>
             </motion.div>
           ))}
