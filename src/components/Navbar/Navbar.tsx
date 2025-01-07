@@ -36,13 +36,13 @@ export default function Navbar() {
             transition={{ delay: 0.5, duration: 0.5 }}
             className="flex space-x-4 justify-center md:justify-start"
           >
-            <a href="https://github.com/jimnemorin" target="_blank" className="text-gray-600 hover:text-gray-400 transition-colors">
+            <a href="https://github.com/jim707t" target="_blank" className="text-gray-600 hover:text-gray-400 transition-colors">
               <FontAwesomeIcon icon={faGithub} size="2x" />
             </a>
             <a href="https://twitter.com/jimnemorin" target="_blank" className="text-gray-600 hover:text-gray-400 transition-colors">
               <FontAwesomeIcon icon={faXTwitter} size="2x" />
             </a>
-            <a href="https://linkedin.com/in/jimnemorin" target="_blank" className="text-gray-600 hover:text-gray-400 transition-colors">
+            <a href="https://www.linkedin.com/in/jim-quincy-nemorin-7106b2280" target="_blank" className="text-gray-600 hover:text-gray-400 transition-colors">
               <FontAwesomeIcon icon={faLinkedinIn} size="2x" />
             </a>
           </motion.div>
