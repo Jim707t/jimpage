@@ -80,7 +80,7 @@ export default function Home() {
                 </div>
                 <div className="text-center sm:text-left w-full">
                   <h2 className="text-xl sm:text-2xl font-semibold text-gray-300 mb-2 font-mono">
-                    {entry.platform} <span className="text-sm opacity-50">//</span> {entry.name}
+                    {entry.platform} <span className="text-sm opacity-50">&#47;&#47;</span> {entry.name}
                   </h2>
                   <p className="text-sm sm:text-base text-gray-500 font-mono">{entry.description}</p>
                 </div>
