@@ -1,6 +1,10 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar/Navbar';
+import HexBackground from './HexBackground/HexBackground';
+import CircuitOverlay from './CircuitOverlay/CircuitOverlay';
+import ThoughtSpace from './ThoughtSpace/ThoughtSpace';
+
 
 export default function Layout({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -25,20 +29,29 @@ export default function Layout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#0a0a0f] to-[#0f0f1a] text-gray-300">
+    <div className="min-h-screen bg-black text-gray-300">
       <Navbar />
+      <HexBackground />
+      <CircuitOverlay />
+      <ThoughtSpace />
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="fixed top-4 right-4 z-50"
       >
-        <button
+        <motion.button
           onClick={togglePlay}
-          className="px-4 py-2 bg-transparent border border-gray-800 text-gray-500 rounded-full hover:bg-gray-900/30 focus:outline-none transition-colors"
+          className="group relative px-4 py-2 font-mono text-sm backdrop-blur-sm bg-black/30 border border-gray-800 text-[#00ff94] rounded-lg hover:bg-black/50 focus:outline-none transition-all duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          {isPlaying ? 'Pause' : 'Play'}
-        </button>
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-[#0066ff] to-[#00ff94] opacity-10 blur group-hover:opacity-20 transition duration-300 rounded-lg" />
+          <span className="relative z-10 flex items-center">
+            <span className="mr-2">{isPlaying ? '◼' : '▶'}</span>
+            {isPlaying ? 'Pause_' : 'Play_'}
+          </span>
+        </motion.button>
       </motion.div>
       <audio ref={audioRef} loop>
         <source src="/assets/background-music.mp3" type="audio/mpeg" />
