@@ -42,11 +42,11 @@ export default function Layout({ children }: { children: ReactNode }) {
       >
         <motion.button
           onClick={togglePlay}
-          className="group relative px-4 py-2 font-mono text-sm backdrop-blur-sm bg-black/30 border border-gray-800 text-[#00ff94] rounded-lg hover:bg-black/50 focus:outline-none transition-all duration-300"
+          className="group relative px-4 py-2 font-mono text-sm backdrop-blur-sm bg-black/30 border border-gray-800 rounded-lg hover:bg-black/50 focus:outline-none transition-all duration-300"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-[#0066ff] to-[#00ff94] opacity-10 blur group-hover:opacity-20 transition duration-300 rounded-lg" />
+          <div className="absolute -inset-0.5 bg-gradient-to-r opacity-10 blur group-hover:opacity-20 transition duration-300 rounded-lg" />
           <span className="relative z-10 flex items-center">
             <span className="mr-2">{isPlaying ? '◼' : '▶'}</span>
             {isPlaying ? 'Pause_' : 'Play_'}
