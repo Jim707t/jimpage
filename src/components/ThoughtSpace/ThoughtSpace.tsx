@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface Section {
+  en: string[];
+  sw: string[];
+  ht: string[];
+}
+
 const ThoughtSpace = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
@@ -34,28 +40,38 @@ const ThoughtSpace = () => {
           <motion.div
             key={key}
             className="relative group"
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ 
+              scale: 1.02,
+              transition: { duration: 0.2 }
+            }}
             onClick={() => setActiveSection(activeSection === key ? null : key)}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0066ff] to-[#00ff94] opacity-10 blur-xl rounded-xl group-hover:opacity-20 transition-opacity" />
-            <div className="relative backdrop-blur-sm bg-black/30 rounded-xl p-6 border border-gray-900/30">
-              <h2 className="text-2xl font-mono font-bold text-[#00ff94] mb-4">
-                {key.replace('_', ' ')}<span className="text-[#0066ff]">_</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-nebula-primary to-space-accent opacity-10 blur-xl rounded-xl group-hover:opacity-20 transition-all duration-300" />
+            <div className="relative backdrop-blur-md bg-space-dark/40 rounded-xl p-6 border border-nebula-tertiary/20 shadow-lg">
+              <h2 className="text-2xl font-mono font-bold mb-4 tracking-tight">
+                {key.replace('_', ' ')}<span className="text-space-accent animate-pulse-slow">_</span>
               </h2>
               
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 {activeSection === key && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
                     className="space-y-6"
                   >
                     {languages.en.map((item, idx) => (
-                      <div key={idx} className="space-y-2 font-mono">
-                        <p className="text-[#00ff94]">$ {item}</p>
-                        <p className="text-sm text-gray-400">→ {languages.sw[idx]}</p>
-                        <p className="text-sm text-gray-400">→ {languages.ht[idx]}</p>
+                      <div key={idx} className="space-y-2 font-mono group">
+                        <p className="text-nebula-secondary group-hover:text-space-accent transition-colors">
+                          $ {item}
+                        </p>
+                        <p className="text-sm text-space-light/70 pl-4 border-l border-nebula-primary/30">
+                          → {languages.sw[idx]}
+                        </p>
+                        <p className="text-sm text-space-light/70 pl-4 border-l border-nebula-primary/30">
+                          → {languages.ht[idx]}
+                        </p>
                       </div>
                     ))}
                   </motion.div>
@@ -63,8 +79,10 @@ const ThoughtSpace = () => {
               </AnimatePresence>
               
               {activeSection !== key && (
-                <div className="h-16 flex items-center text-gray-500 font-mono">
-                  <span className="animate-pulse">Click to explore_</span>
+                <div className="h-16 flex items-center font-mono">
+                  <span className="animate-glow relative">
+                    Click to explore<span className="text-nebula-secondary">_</span>
+                  </span>
                 </div>
               )}
             </div>
