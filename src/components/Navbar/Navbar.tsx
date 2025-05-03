@@ -2,10 +2,10 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub, faXTwitter, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faXTwitter, faLinkedinIn, faThreads } from "@fortawesome/free-brands-svg-icons";
 
 interface SocialLink {
-  icon: typeof faGithub | typeof faXTwitter | typeof faLinkedinIn;
+  icon: typeof faGithub | typeof faXTwitter | typeof faThreads;
   href: string;
   color: string;
 }
@@ -14,7 +14,7 @@ export default function Navbar() {
   const socialLinks: SocialLink[] = [
     { icon: faGithub, href: "https://github.com/jim707t", color: "white" },
     { icon: faXTwitter, href: "https://twitter.com/jimnemorin", color: "whitet" },
-    { icon: faLinkedinIn, href: "https://www.linkedin.com/in/jim-quincy-nemorin-7106b2280", color: "white" }
+    { icon: faThreads, href: "https://www.threads.com/@jimnemorin", color: "white" }
   ];
 
   return (
