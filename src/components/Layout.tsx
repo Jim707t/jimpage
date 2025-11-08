@@ -14,6 +14,30 @@ export default function Layout({ children }: { children: ReactNode }) {
     const audio = audioRef.current;
     if (audio) {
       audio.volume = 0.3;
+      // Load the audio first
+      audio.load();
+      
+      // Try to play when loaded
+      const playAudio = () => {
+        if (isPlaying) {
+          audio.play().catch((error) => {
+            console.log('Autoplay prevented:', error);
+          });
+        }
+      };
+      
+      // Listen for when audio can play
+      audio.addEventListener('canplaythrough', playAudio, { once: true });
+      
+      return () => {
+        audio.removeEventListener('canplaythrough', playAudio);
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
       if (isPlaying) {
         audio.play().catch((error) => {
           console.log('Autoplay prevented:', error);
@@ -53,7 +77,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </span>
         </motion.button>
       </motion.div>
-      <audio ref={audioRef} loop>
+      <audio ref={audioRef} loop preload="auto">
         <source src="/assets/background-music.mp3" type="audio/mpeg" />
       </audio>
       <AnimatePresence mode="wait">
