@@ -1,6 +1,8 @@
 import React from 'react';
+import Head from 'next/head';
 import { motion } from 'framer-motion';
 import Layout from "@/components/Layout";
+import ThoughtSpace from "@/components/ThoughtSpace/ThoughtSpace";
 
 interface TimelineEntry {
   id: number;
@@ -49,15 +51,38 @@ export default function Home() {
 
   return (
     <Layout>
+      <Head>
+        <title>Jim Nemorin — Developer, Writer, Builder</title>
+        <meta name="description" content="Personal site of Jim Nemorin. Explore projects, writings, and ideas." />
+        <meta property="og:title" content="Jim Nemorin" />
+        <meta property="og:description" content="Developer, Writer, Builder" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@jimnemorin" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </Head>
+      <div className="w-full max-w-6xl mx-auto p-4 mb-4">
+        <motion.h1 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-2 tracking-tight font-mono"
+        >
+          Interests<span className="text-space-accent animate-pulse-slow">_</span>
+        </motion.h1>
+        <p className="text-center text-sm text-space-light/60 font-mono mb-6">Some of the things that keep my mind busy</p>
+      </div>
+      <ThoughtSpace />
       <div className="w-full max-w-6xl mx-auto p-4">
         <motion.h1 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-10 tracking-tight font-mono"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-2 tracking-tight font-mono"
         >
-          Network<span className="text-space-accent animate-pulse-slow">_</span>
+          Connect<span className="text-space-accent animate-pulse-slow">_</span>
         </motion.h1>
+        <p className="text-center text-sm text-space-light/60 font-mono mb-6">See what I&apos;ve done, what I&apos;m doing, and get in touch</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {timeline.map((entry) => (
             <motion.div

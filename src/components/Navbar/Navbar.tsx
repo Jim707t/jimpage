@@ -2,18 +2,19 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub, faXTwitter, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 interface SocialLink {
   icon: typeof faGithub | typeof faXTwitter;
   href: string;
   color: string;
+  label: string;
 }
 
 export default function Navbar() {
   const socialLinks: SocialLink[] = [
-    { icon: faGithub, href: "https://github.com/jim707t", color: "white" },
-    { icon: faXTwitter, href: "https://twitter.com/jimnemorin", color: "whitet" }
+    { icon: faGithub, href: "https://github.com/jim707t", color: "white", label: "GitHub" },
+    { icon: faXTwitter, href: "https://twitter.com/jimnemorin", color: "white", label: "X (Twitter)" }
   ];
 
   return (
@@ -43,7 +44,7 @@ export default function Navbar() {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="text-lg text-space-light font-mono"
           >
-            <span className="text-nebula-primary">&gt;</span> Pi gro batay m fe se avek tet mwen
+            <span className="text-nebula-primary">&gt;</span> I build things for the web, read everything from topology to manga, and write about the ideas that won&apos;t let me sleep. I&apos;m always chasing a more elegant way to understand the world. If you&apos;re building something cool — reach out. I&apos;d rather hear about it and decide than miss it entirely.
           </motion.p>
 
           <motion.div
@@ -57,6 +58,8 @@ export default function Navbar() {
                 key={social.href}
                 href={social.href}
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
                 className={`group relative text-${social.color}`}
                 whileHover={{ scale: 1.1 }}
               >

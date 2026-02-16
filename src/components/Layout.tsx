@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar/Navbar';
 import HexBackground from './HexBackground/HexBackground';
 import CircuitOverlay from './CircuitOverlay/CircuitOverlay';
-import ThoughtSpace from './ThoughtSpace/ThoughtSpace';
 
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -57,7 +56,6 @@ export default function Layout({ children }: { children: ReactNode }) {
       <Navbar />
       <HexBackground />
       <CircuitOverlay />
-      <ThoughtSpace />
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -66,6 +64,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       >
         <motion.button
           onClick={togglePlay}
+          aria-label={isPlaying ? 'Pause background music' : 'Play background music'}
           className="group relative px-4 py-2 font-mono text-sm backdrop-blur-sm bg-black/30 border border-gray-800 rounded-lg hover:bg-black/50 focus:outline-none transition-all duration-300"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
