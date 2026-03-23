@@ -4,28 +4,16 @@ import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
-interface SocialLink {
-  icon: typeof faGithub | typeof faXTwitter;
-  href: string;
-  color: string;
-  label: string;
-}
-
 export default function Navbar() {
-  const socialLinks: SocialLink[] = [
-    { icon: faGithub, href: "https://github.com/jim707t", color: "white", label: "GitHub" },
-    { icon: faXTwitter, href: "https://twitter.com/jimnemorin", color: "white", label: "X (Twitter)" }
-  ];
-
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }}
       className="backdrop-blur-md bg-space-dark/40 border-b border-nebula-primary/20"
     >
-      <div className="container mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-        <div className="flex flex-col space-y-4 text-center md:text-left">
+      <div className="container mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <div className="flex flex-col space-y-3 text-center md:text-left">
           <motion.div
             className="relative inline-block group"
             initial={{ x: -50, opacity: 0 }}
@@ -38,39 +26,42 @@ export default function Navbar() {
             <div className="absolute -inset-0.5 bg-gradient-to-r from-nebula-primary to-space-accent opacity-10 blur group-hover:opacity-20 transition duration-1000 group-hover:duration-200" />
           </motion.div>
 
-          <motion.p 
+          <motion.p
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-lg text-space-light font-mono"
+            className="text-sm text-space-light/70 font-mono"
           >
-            <span className="text-nebula-primary">&gt;</span> I build things for the web, read everything from topology to manga, and write about the ideas that won&apos;t let me sleep. I&apos;m always chasing a more elegant way to understand the world. If you&apos;re building something cool — reach out. I&apos;d rather hear about it and decide than miss it entirely.
+            <span className="text-nebula-primary">&gt;</span> agentic coder, builder
           </motion.p>
 
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            className="flex space-x-6 justify-center md:justify-start"
+            className="flex space-x-5 justify-center md:justify-start"
           >
-            {socialLinks.map((social) => (
+            {[
+              { icon: faGithub, href: "https://github.com/jim707t", label: "GitHub" },
+              { icon: faXTwitter, href: "https://x.com/jimnemorin", label: "X" },
+            ].map((social) => (
               <motion.a
                 key={social.href}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className={`group relative text-${social.color}`}
+                className="group relative text-white"
                 whileHover={{ scale: 1.1 }}
               >
-                <FontAwesomeIcon icon={social.icon} size="2x" className="relative z-10" />
+                <FontAwesomeIcon icon={social.icon} size="lg" className="relative z-10" />
                 <div className="absolute -inset-2 bg-current opacity-10 blur-sm rounded-full transition-opacity group-hover:opacity-20" />
               </motion.a>
             ))}
           </motion.div>
         </div>
-        
-        <motion.div 
+
+        <motion.div
           initial={{ scale: 0.2, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.7 }}
@@ -82,8 +73,8 @@ export default function Navbar() {
               <Image
                 src="/assets/pfr.jpg"
                 alt="Profile"
-                width={250}
-                height={250}
+                width={200}
+                height={200}
                 className="relative z-10 rounded-full border-2 border-nebula-secondary/30 shadow-lg grayscale hover:grayscale-0 transition-all duration-300"
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-nebula-primary to-space-accent opacity-20 blur-xl transition-opacity group-hover:opacity-30" />

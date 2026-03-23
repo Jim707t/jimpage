@@ -1,127 +1,494 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
-import { motion } from 'framer-motion';
-import Layout from "@/components/Layout";
-import ThoughtSpace from "@/components/ThoughtSpace/ThoughtSpace";
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faGithub,
+  faXTwitter,
+  faTiktok,
+  faInstagram,
+  faYoutube,
+} from '@fortawesome/free-brands-svg-icons';
+import Layout from '@/components/Layout';
 
-interface TimelineEntry {
-  id: number;
-  platform: string;
-  name: string;
-  description: string;
-  icon: string;
-  url: string;
+// ─────────────────── data ────────────────────
+
+interface InterestItem {
+  title: string;
+  sw: string;
+  ht: string;
+  content?: string;
 }
 
-export default function Home() {
-  const timeline: TimelineEntry[] = [
+const INTERESTS: Record<string, InterestItem[]> = {
+  BUILDER_MINDSET: [
+    { title: 'Grand Projects Repository', sw: 'Hifadhi ya Miradi Mikubwa', ht: 'Repozitwa Gwo Pwojè' },
+    { title: 'Learning Chronicles', sw: 'Historia za Kujifunza', ht: 'Kronik Aprantisaj' },
     {
-      id: 5,
-      platform: "Substack",
-      name: "jimnemorin.substack.com",
-      description: 'pansem . I Write sometimes',
-      icon: '📝',
-      url: 'https://jimnemorin.substack.com'
+      title: 'Reading Philosophy',
+      sw: 'Falsafa ya Usomaji',
+      ht: 'Filozofi Lekti',
+      content: "It's just therapy—reading words we are probably misunderstanding, just living in the moment. It's unfortunate that when we're scared, we rarely stay present, even if it's as simple as focusing on this point (.).",
     },
+  ],
+  UNIVERSE_MAXXING: [
+    { title: 'Physics Deep Dives', sw: 'Uchambuzi wa Kina wa Fizikia', ht: 'Fizyon Pwòfondè Fizik' },
+    { title: 'Mathematical Explorations', sw: 'Uchunguzi wa Kihisabati', ht: 'Eksplorasyon Matematik' },
     {
-      id: 4,
-      platform: "X.com",
-      name: "@jimnemorin",
-      description: 'yon post konsa konsa . I post on X sometimes',
-      icon: '🌐',
-      url: 'https://x.com/jimnemorin'
+      title: 'Cosmological Thoughts',
+      sw: 'Mawazo ya Kikosmolojia',
+      ht: 'Panse Kosmolojik',
+      content: 'I used to be tormented by the idea of traveling into infinity and never reaching an end. And even if there were an end, what would be beyond it? My relief came when I learned that I might end up in the same place where I began—zero.',
     },
+  ],
+  PIVOTAL_TURNS: [
+    { title: 'African Development Theories', sw: 'Nadharia za Maendeleo ya Afrika', ht: 'Teori Devlopman Afriken' },
     {
-      id: 3,
-      platform: "GitHub",
-      name: "@jim707t",
-      description: 'Code repositories and projects',
-      icon: '💻',
-      url: 'https://github.com/jim707t'
+      title: 'Civilization Analysis',
+      sw: 'Uchambuzi wa Ustaarabu',
+      ht: 'Analiz Sivilizasyon',
+      content: "We always try to create a framework to fit our data into, even though most of the time only a fraction of historical data is correct—and the rest is a complete fucking lie.",
     },
+    { title: 'Power Dynamics Studies', sw: 'Masomo ya Mienendo ya Nguvu', ht: 'Etid Dinamik Pouvwa' },
+  ],
+  INTELLIGENCE_AUGMENTATION: [
     {
-      id: 1,
-      platform: "YouTube",
-      name: "@jimescapes",
-      description: 'Videos',
-      icon: '🎥',
-      url: 'https://youtube.com/@jimescapes'
-    }
-  ];
+      title: 'AI as Calculator Manifesto',
+      sw: 'Tamko la AI kama Kalkuleta',
+      ht: 'Manifesto AI kòm Kalkilatris',
+      content: "Side by side, as I explored the story with my favorite characters, I had the possibility to experience it from hundreds of different perspectives thanks to generative AI.",
+    },
+    { title: 'Claude Experiments', sw: 'Majaribio ya Claude', ht: 'Eksperyans ak Claude' },
+    { title: 'Productivity Systems', sw: 'Mifumo ya Uzalishaji', ht: 'Sistèm Pwodiktivite' },
+  ],
+};
 
+interface Project {
+  name: string;
+  url: string;
+  tag: string;
+  desc: string;
+}
+
+const PROJECTS: Project[] = [
+  {
+    name: 'mostbased.space',
+    url: 'https://mostbased.space',
+    tag: 'web',
+    desc: 'tracks public figures. users vote on whether a figure is based or not.',
+  },
+  {
+    name: 'csara',
+    url: 'https://github.com/Jim707t/csara',
+    tag: 'tool',
+    desc: 'persistent memory for copilot. stores what you build, retrieves it before the next task.',
+  },
+];
+
+const SOCIALS = [
+  { icon: faXTwitter,   href: 'https://x.com/jimnemorin',               label: 'X',        handle: '@jimnemorin' },
+  { icon: faTiktok,     href: 'https://tiktok.com/@jimnemorin',          label: 'TikTok',   handle: '@jimnemorin' },
+  { icon: faInstagram,  href: 'https://instagram.com/jimnemorin',        label: 'Instagram',handle: '@jimnemorin' },
+  { icon: faGithub,     href: 'https://github.com/jim707t',              label: 'GitHub',   handle: '@jim707t' },
+  { icon: faYoutube,    href: 'https://youtube.com/@jimescapes',         label: 'YouTube',  handle: '@jimescapes' },
+];
+
+// ─────────────────── sub-components ────────────────────
+
+function ExpandableTopics({ keys }: { keys: string[] }) {
+  const [open, setOpen] = useState<string | null>(null);
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
+
+  return (
+    <div className="mt-6 space-y-2 font-mono">
+      {keys.map((key) => (
+        <div key={key}>
+          <button
+            onClick={() => setOpen(open === key ? null : key)}
+            className="flex items-center gap-2 text-xs text-space-light/50 hover:text-nebula-secondary transition-colors group"
+          >
+            <span className="text-nebula-primary/60 group-hover:text-nebula-primary transition-colors">
+              {open === key ? '▾' : '▸'}
+            </span>
+            <span className="tracking-widest uppercase">{key.replace(/_/g, ' ')}</span>
+            <span className="text-space-accent animate-pulse-slow">_</span>
+          </button>
+
+          <AnimatePresence>
+            {open === key && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="ml-4 mt-2 space-y-3 border-l border-nebula-primary/20 pl-4"
+              >
+                {INTERESTS[key].map((item, idx) => {
+                  const itemKey = `${key}-${idx}`;
+                  return (
+                    <div key={idx}>
+                      <div
+                        className={`${item.content ? 'cursor-pointer' : ''}`}
+                        onClick={() =>
+                          item.content &&
+                          setExpandedItem(expandedItem === itemKey ? null : itemKey)
+                        }
+                      >
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm text-nebula-secondary">$ {item.title}</p>
+                          {item.content && (
+                            <span className="text-xs text-space-light/30 ml-2">
+                              {expandedItem === itemKey ? '[ hide ]' : '[ + ]'}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-space-light/50">→ {item.sw}</p>
+                        <p className="text-xs text-space-light/50">→ {item.ht}</p>
+                      </div>
+                      <AnimatePresence>
+                        {item.content && expandedItem === itemKey && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="mt-2 p-3 bg-space-dark/60 rounded-lg border border-nebula-primary/20 text-xs text-space-light/80 leading-relaxed"
+                          >
+                            {item.content}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <motion.div
+      className="relative group cursor-pointer"
+      whileHover={{ scale: 1.02 }}
+      onClick={() => window.open(project.url, '_blank')}
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-nebula-primary to-space-accent opacity-10 blur-xl rounded-xl group-hover:opacity-20 transition-all duration-300" />
+      <div className="relative backdrop-blur-md bg-space-dark/40 rounded-xl p-5 border border-nebula-tertiary/20 shadow-lg">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-mono font-bold text-nebula-secondary">
+            {project.name}<span className="text-space-accent animate-pulse-slow">_</span>
+          </span>
+          <span className="text-xs font-mono text-space-light/40 border border-space-light/20 rounded px-2 py-0.5">
+            {project.tag}
+          </span>
+        </div>
+        <p className="text-sm font-mono text-space-light/70 leading-relaxed">{project.desc}</p>
+        <p className="mt-3 text-xs font-mono text-space-accent/60 animate-glow">
+          open<span className="text-nebula-secondary">_</span>
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─────────────────── page ────────────────────
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>Jim Nemorin — Developer, Writer, Builder</title>
-        <meta name="description" content="Personal site of Jim Nemorin. Explore projects, writings, and ideas." />
+        <title>Jim Nemorin</title>
+        <meta name="description" content="dev. builder. reader. always chasing a more elegant way to understand the world." />
         <meta property="og:title" content="Jim Nemorin" />
-        <meta property="og:description" content="Developer, Writer, Builder" />
+        <meta property="og:description" content="dev. builder. reader." />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@jimnemorin" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
-      <div className="w-full max-w-6xl mx-auto p-4 mb-4">
-        <motion.h1 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-2 tracking-tight font-mono"
+
+      <div className="w-full max-w-3xl mx-auto px-4 py-10 space-y-28">
+
+        {/* ── section 1: builder ── */}
+        <motion.section
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="relative"
         >
-          Interests<span className="text-space-accent animate-pulse-slow">_</span>
-        </motion.h1>
-        <p className="text-center text-sm text-space-light/60 font-mono mb-6">Some of the things that keep my mind busy</p>
-      </div>
-      <ThoughtSpace />
-      <div className="w-full max-w-6xl mx-auto p-4">
-        <motion.h1 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-2 tracking-tight font-mono"
-        >
-          Connect<span className="text-space-accent animate-pulse-slow">_</span>
-        </motion.h1>
-        <p className="text-center text-sm text-space-light/60 font-mono mb-6">See what I&apos;ve done, what I&apos;m doing, and get in touch</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {timeline.map((entry) => (
+          {/* mobile bg image */}
+          <div className="absolute inset-y-0 right-0 w-56 md:hidden pointer-events-none select-none overflow-hidden">
+            <Image
+              src="/assets/tobi_s1_nobg.png"
+              alt=""
+              width={224}
+              height={340}
+              className="object-contain object-bottom h-full w-full opacity-25 brightness-110"
+              style={{ filter: 'drop-shadow(0 0 16px rgba(99,102,241,0.5))' }}
+            />
+          </div>
+          <div className="flex flex-col md:flex-row md:items-start md:gap-12">
+            <div className="flex-1 min-w-0 relative z-10">
+              <p className="font-mono text-space-light/90 text-lg leading-relaxed">
+                <span className="text-nebula-primary">&gt;</span>{' '}
+                i build things for the web.
+                <br />
+                sometimes small software for personal use.
+                <br />
+                some kind of agentic coder at this point.
+              </p>
+
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {PROJECTS.map((p) => (
+                  <ProjectCard key={p.name} project={p} />
+                ))}
+              </div>
+
+              <ExpandableTopics keys={['BUILDER_MINDSET']} />
+            </div>
+
             <motion.div
-              key={entry.id}
-              className="relative group"
-              whileHover={{ 
-                scale: 1.02,
-                transition: { duration: 0.2 }
-              }}
-              onClick={() => window.open(entry.url, '_blank')}
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="hidden md:flex flex-shrink-0 items-end justify-center w-48 self-start mt-4"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-nebula-primary to-space-accent opacity-10 blur-xl rounded-xl group-hover:opacity-20 transition-all duration-300" />
-              <div className="relative backdrop-blur-md bg-space-dark/40 rounded-xl p-6 border border-nebula-tertiary/20 shadow-lg cursor-pointer">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="text-3xl sm:text-4xl opacity-70 group-hover:opacity-100 transition-opacity">
-                    {entry.icon}
-                  </div>
-                  <h2 className="text-2xl font-mono font-bold tracking-tight">
-                    {entry.platform.toUpperCase()}<span className="text-space-accent animate-pulse-slow">_</span>
-                  </h2>
-                </div>
-                
-                <div className="space-y-2 font-mono">
-                  <p className="text-lg text-nebula-secondary">
-                    {entry.name}
-                  </p>
-                  <p className="text-sm text-space-light/70">
-                    {entry.description}
-                  </p>
-                  <div className="pt-2">
-                    <span className="animate-glow relative text-sm">
-                      Click to explore<span className="text-nebula-secondary">_</span>
-                    </span>
-                  </div>
+              <Image
+                src="/assets/tobi_s1_nobg.png"
+                alt="tobi"
+                width={200}
+                height={340}
+                className="object-contain"
+                style={{ filter: 'drop-shadow(0 0 20px rgba(99,102,241,0.4)) brightness(1.05)' }}
+              />
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* ── section 2: reader / writer ── */}
+        <motion.section
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="relative"
+        >
+          {/* mobile bg image */}
+          <div className="absolute inset-y-0 right-0 w-56 md:hidden pointer-events-none select-none overflow-hidden">
+            <Image
+              src="/assets/awake_tobi_nobg.png"
+              alt=""
+              width={224}
+              height={300}
+              className="object-contain object-bottom h-full w-full opacity-25 brightness-110"
+              style={{ filter: 'drop-shadow(0 0 16px rgba(99,102,241,0.5))' }}
+            />
+          </div>
+          <div className="flex flex-col md:flex-row-reverse md:items-start md:gap-12">
+            <div className="flex-1 min-w-0 relative z-10">
+              <p className="font-mono text-space-light/90 text-lg leading-relaxed">
+                <span className="text-nebula-primary">&gt;</span>{' '}
+                i read everything from topology to manga,
+                <br />
+                and write about the ideas that won&apos;t let me sleep.
+              </p>
+
+              <div className="mt-6">
+                <motion.a
+                  href="https://jimnemorin.substack.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative group inline-flex items-center gap-2 font-mono text-sm"
+                  whileHover={{ scale: 1.03 }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-nebula-primary to-space-accent opacity-0 blur-xl rounded-lg group-hover:opacity-20 transition-all duration-300" />
+                  <span className="relative backdrop-blur-md bg-space-dark/40 border border-nebula-tertiary/20 rounded-lg px-4 py-2 text-nebula-secondary group-hover:border-nebula-secondary/40 transition-all duration-200">
+                    📝 jimnemorin.substack.com<span className="text-space-accent animate-pulse-slow">_</span>
+                  </span>
+                </motion.a>
+              </div>
+
+              <ExpandableTopics keys={['UNIVERSE_MAXXING', 'PIVOTAL_TURNS']} />
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="hidden md:flex flex-shrink-0 items-end justify-center w-48 self-start mt-4"
+            >
+              <Image
+                src="/assets/awake_tobi_nobg.png"
+                alt="tobi awake again"
+                width={200}
+                height={300}
+                className="object-contain"
+                style={{ filter: 'drop-shadow(0 0 20px rgba(99,102,241,0.4)) brightness(1.05)' }}
+              />
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* ── section 3: singularity ── */}
+        <motion.section
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="relative"
+        >
+          {/* mobile bg image */}
+          <div className="absolute inset-y-0 right-0 w-56 md:hidden pointer-events-none select-none overflow-hidden">
+            <Image
+              src="/assets/chilling_tobi_nobg.png"
+              alt=""
+              width={224}
+              height={340}
+              className="object-contain object-bottom h-full w-full opacity-25 brightness-110"
+              style={{ filter: 'drop-shadow(0 0 16px rgba(99,102,241,0.5))' }}
+            />
+          </div>
+          <div className="flex flex-col md:flex-row md:items-start md:gap-12">
+            <div className="flex-1 min-w-0 relative z-10">
+              <p className="font-mono text-space-light/90 text-lg leading-relaxed">
+                <span className="text-nebula-primary">&gt;</span>{' '}
+                i&apos;m always chasing a more elegant way to understand the world.
+              </p>
+              <p className="mt-4 font-mono text-space-light/70 text-base leading-relaxed">
+                now that we&apos;re in the singularity i&apos;m just trying to figure out how to live in there as a human.
+                <br /><br />
+                now that i can prompt the agent:{' '}
+                <span className="text-nebula-secondary">&quot;figure out how to do x by any means possible&quot;</span>
+                {' '}what else do i need?
+                <br /><br />
+                i&apos;m just human after all.
+                <br />
+                my time to do the{' '}
+                <span className="text-space-accent/80 italic">dirty work</span>
+                {' '}is done.
+              </p>
+
+              <ExpandableTopics keys={['INTELLIGENCE_AUGMENTATION']} />
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="hidden md:flex flex-shrink-0 items-end justify-center w-48 self-start mt-4"
+            >
+              <Image
+                src="/assets/chilling_tobi_nobg.png"
+                alt="tobi thumbs up"
+                width={200}
+                height={340}
+                className="object-contain"
+                style={{ filter: 'drop-shadow(0 0 20px rgba(99,102,241,0.4)) brightness(1.05)' }}
+              />
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* ── section 4: reach out ── */}
+        <motion.section
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="pb-16 relative"
+        >
+          {/* mobile bg image */}
+          <div className="absolute inset-y-0 right-0 w-56 md:hidden pointer-events-none select-none overflow-hidden">
+            <Image
+              src="/assets/tobi_mybad_nobg.png"
+              alt=""
+              width={224}
+              height={280}
+              className="object-contain object-bottom h-full w-full opacity-25 brightness-110"
+              style={{ filter: 'drop-shadow(0 0 16px rgba(99,102,241,0.5))' }}
+            />
+          </div>
+          <div className="flex flex-col md:flex-row-reverse md:items-start md:gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="hidden md:flex flex-shrink-0 items-end justify-center w-44 self-start"
+            >
+              <Image
+                src="/assets/tobi_mybad_nobg.png"
+                alt="tobi my bad"
+                width={180}
+                height={280}
+                className="object-contain"
+                style={{ filter: 'drop-shadow(0 0 20px rgba(99,102,241,0.4)) brightness(1.05)' }}
+              />
+            </motion.div>
+
+            <div className="flex-1 min-w-0 relative z-10">
+              <p className="font-mono text-space-light/90 text-lg leading-relaxed">
+                <span className="text-nebula-primary">&gt;</span>{' '}
+                if you&apos;re building something cool, please share it with me.
+                <br />
+                i want to see.
+                <br />
+                <span className="text-space-light/50">
+                  now that there&apos;s not much left for me to do.
+                </span>
+              </p>
+
+              <div className="mt-8">
+                <p className="font-mono text-xs text-space-light/60 mb-3 tracking-widest uppercase">
+                  you can find me here<span className="text-space-accent animate-pulse-slow">_</span>
+                </p>
+                <div className="flex flex-wrap gap-x-6 gap-y-4 items-center">
+                  {SOCIALS.map((s) => (
+                    <motion.a
+                      key={s.href}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="group flex items-center gap-2 font-mono text-sm text-white/75 hover:text-nebula-secondary transition-colors duration-200"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <FontAwesomeIcon icon={s.icon} className="w-4 h-4 text-space-light/70 group-hover:text-nebula-secondary transition-colors" />
+                      <span>{s.handle}</span>
+                    </motion.a>
+                  ))}
+                  <motion.a
+                    href="https://jimnemorin.substack.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Substack"
+                    className="group flex items-center gap-2 font-mono text-sm text-white/75 hover:text-nebula-secondary transition-colors duration-200"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <span className="text-space-light/70 group-hover:text-nebula-secondary transition-colors">📝</span>
+                    <span>substack</span>
+                  </motion.a>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+          </div>
+        </motion.section>
+
       </div>
     </Layout>
   );

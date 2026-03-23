@@ -32,6 +32,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         audio.removeEventListener('canplaythrough', playAudio);
       };
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
