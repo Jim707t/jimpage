@@ -247,7 +247,7 @@ export default function Home() {
                 <br />
                 sometimes small software for personal use.
                 <br />
-                some kind of agentic coder at this point.
+                I'm some kind of agentic coder at this point.
               </p>
 
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
