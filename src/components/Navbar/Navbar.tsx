@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 export default function Navbar() {
+  const [grayscale, setGrayscale] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
@@ -33,6 +36,13 @@ export default function Navbar() {
             className="text-sm text-space-light/70 font-mono"
           >
             <span className="text-nebula-primary">&gt;</span> agentic coder, builder
+            <span className="mx-2 text-space-light/30">·</span>
+            <Link
+              href="/services"
+              className="text-nebula-secondary/80 hover:text-nebula-secondary transition-colors"
+            >
+              work with me<span className="text-space-accent animate-pulse-slow">_</span>
+            </Link>
           </motion.p>
 
           <motion.div
@@ -75,7 +85,8 @@ export default function Navbar() {
                 alt="Profile"
                 width={200}
                 height={200}
-                className="relative z-10 rounded-full border-2 border-nebula-secondary/30 shadow-lg grayscale hover:grayscale-0 transition-all duration-300"
+                onClick={() => setGrayscale((g) => !g)}
+                className={`relative z-10 rounded-full border-2 border-nebula-secondary/30 shadow-lg cursor-pointer transition-all duration-300 ${grayscale ? 'grayscale' : ''}`}
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-nebula-primary to-space-accent opacity-20 blur-xl transition-opacity group-hover:opacity-30" />
             </div>

@@ -15,7 +15,7 @@ jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: React.ImgHTMLAttributes<HTMLImageElement> & { src: string; alt: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={props.src} alt={props.alt} />;
+    return <img src={props.src} alt={props.alt} className={props.className} onClick={props.onClick} />;
   },
 }));
 
@@ -91,6 +91,25 @@ describe('Navbar', () => {
     expect(screen.getByRole('img', { name: /profile/i })).toBeInTheDocument();
   });
 
+  it('profile image is colored by default and toggles grayscale on click', () => {
+    render(<Navbar />);
+    // re-query after each click: the mocked motion components remount the subtree on re-render
+    const profile = () => screen.getByRole('img', { name: /profile/i });
+    expect(profile()).not.toHaveClass('grayscale');
+    fireEvent.click(profile());
+    expect(profile()).toHaveClass('grayscale');
+    fireEvent.click(profile());
+    expect(profile()).not.toHaveClass('grayscale');
+  });
+
+  it('links to the services page', () => {
+    render(<Navbar />);
+    const link = screen.getAllByRole('link').find(
+      (a) => (a as HTMLAnchorElement).getAttribute('href') === '/services'
+    );
+    expect(link).toBeDefined();
+  });
+
   it('links to GitHub', () => {
     render(<Navbar />);
     const link = screen.getAllByRole('link').find(
@@ -119,20 +138,35 @@ describe('Home page — conversational sections', () => {
     expect(screen.getByText(/i build things for the web/i)).toBeInTheDocument();
   });
 
+  it('renders the builder llm line', () => {
+    expect(screen.getByText(/i also train and set up llm systems/i)).toBeInTheDocument();
+  });
+
   it('renders the reader section text', () => {
-    expect(screen.getByText(/topology to manga/i)).toBeInTheDocument();
+    expect(screen.getByText(/topology to underground mythical warfare/i)).toBeInTheDocument();
   });
 
   it('renders the singularity section text', () => {
-    expect(screen.getByText(/more elegant way to understand the world/i)).toBeInTheDocument();
+    expect(screen.getByText(/more elegant way to see and understand the world/i)).toBeInTheDocument();
+  });
+
+  it('renders the singularity graph question and image', () => {
+    expect(screen.getByText(/where do you think we are in this graph/i)).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /singularity/i })).toBeInTheDocument();
   });
 
   it('renders the reach-out section text', () => {
     expect(screen.getByText(/building something cool/i)).toBeInTheDocument();
   });
 
-  it('uses correct grammar — dirty work, not sal boulot', () => {
-    expect(screen.getByText(/dirty work/i)).toBeInTheDocument();
+  it('renders the human-navigating closing lines', () => {
+    expect(screen.getByText(/navigating a world i see, feel/i)).toBeInTheDocument();
+    expect(screen.getByText(/not chosen/i)).toBeInTheDocument();
+  });
+
+  it('says we are near the singularity, not in it', () => {
+    expect(screen.getByText(/near the singularity/i)).toBeInTheDocument();
+    expect(screen.queryByText(/we're in the singularity/i)).not.toBeInTheDocument();
   });
 
   it('renders share with me copy', () => {
@@ -273,15 +307,19 @@ describe('Home page — expandable topic tags', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 describe('Home page — tobi illustrations', () => {
-  it('renders all four illustration images', () => {
+  it('renders the three remaining illustration images', () => {
     render(<Home />);
-    const imgs = screen.getAllByRole('img');
-    const illustrationImgs = imgs.filter((img) =>
-      ['tobi_s1_nobg', 'awake_tobi_nobg', 'chilling_tobi_nobg', 'tobi_mybad_nobg'].some((name) =>
-        (img as HTMLImageElement).src.includes(name)
-      )
-    );
-    expect(illustrationImgs.length).toBe(4);
+    // getAttribute: the role=img list also includes the SVG graph, which has no .src
+    const srcs = screen.getAllByRole('img').map((img) => img.getAttribute('src') ?? '');
+    ['awake_tobi_nobg', 'chilling_tobi_nobg', 'tobi_mybad_nobg'].forEach((name) => {
+      expect(srcs.some((src) => src.includes(name))).toBe(true);
+    });
+  });
+
+  it('does not render the removed first-section image', () => {
+    render(<Home />);
+    const srcs = screen.getAllByRole('img').map((img) => img.getAttribute('src') ?? '');
+    expect(srcs.some((src) => src.includes('tobi_s1_nobg'))).toBe(false);
   });
 });
 

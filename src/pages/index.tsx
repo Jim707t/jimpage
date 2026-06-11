@@ -11,6 +11,7 @@ import {
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
 import Layout from '@/components/Layout';
+import SubstackIcon from '@/components/SubstackIcon';
 
 // ─────────────────── data ────────────────────
 
@@ -197,6 +198,52 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
+function SingularityGraph() {
+  return (
+    <div className="mt-4 relative group">
+      <div className="absolute inset-0 bg-gradient-to-r from-nebula-primary to-space-accent opacity-10 blur-xl rounded-xl group-hover:opacity-20 transition-all duration-300" />
+      <div className="relative backdrop-blur-md bg-space-dark/40 rounded-xl p-4 border border-nebula-tertiary/20 shadow-lg font-mono">
+        <svg
+          viewBox="0 0 320 190"
+          className="w-full h-auto"
+          role="img"
+          aria-label="exponential curve of capability over time, with a marker asking where we are on the way to the singularity"
+        >
+          <defs>
+            <linearGradient id="singularity-curve" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stopColor="#4F46E5" />
+              <stop offset="100%" stopColor="#818CF8" />
+            </linearGradient>
+          </defs>
+
+          {/* axes */}
+          <line x1="32" y1="160" x2="306" y2="160" stroke="#334155" strokeWidth="1" />
+          <line x1="32" y1="160" x2="32" y2="14" stroke="#334155" strokeWidth="1" />
+          <text x="306" y="176" fontSize="9" fill="#64748B" textAnchor="end">time →</text>
+          <text x="22" y="90" fontSize="9" fill="#64748B" textAnchor="middle" transform="rotate(-90 22 90)">capability →</text>
+
+          {/* exponential curve */}
+          <path
+            d="M 32 158 C 110 156 192 146 238 112 C 270 88 292 50 300 16"
+            fill="none"
+            stroke="url(#singularity-curve)"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+
+          {/* singularity label at the top of the curve */}
+          <text x="296" y="12" fontSize="9" fill="#A5B4FC" textAnchor="end">singularity</text>
+
+          {/* "we are here?" marker */}
+          <line x1="238" y1="112" x2="238" y2="160" stroke="#6366F1" strokeWidth="1" strokeDasharray="3 3" opacity="0.5" />
+          <circle cx="238" cy="112" r="4" fill="#818CF8" className="animate-pulse-slow" />
+          <text x="226" y="106" fontSize="10" fill="#A5B4FC" textAnchor="end">we&apos;re.. maybe here? →</text>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 // ─────────────────── page ────────────────────
 
 const sectionVariants = {
@@ -228,53 +275,25 @@ export default function Home() {
           viewport={{ once: true, margin: '-80px' }}
           className="relative"
         >
-          {/* mobile bg image */}
-          <div className="absolute inset-y-0 right-0 w-56 md:hidden pointer-events-none select-none overflow-hidden">
-            <Image
-              src="/assets/tobi_s1_nobg.png"
-              alt=""
-              width={224}
-              height={340}
-              className="object-contain object-bottom h-full w-full opacity-25 brightness-110"
-              style={{ filter: 'drop-shadow(0 0 16px rgba(99,102,241,0.5))' }}
-            />
-          </div>
-          <div className="flex flex-col md:flex-row md:items-start md:gap-12">
-            <div className="flex-1 min-w-0 relative z-10">
-              <p className="font-mono text-space-light/90 text-lg leading-relaxed">
-                <span className="text-nebula-primary">&gt;</span>{' '}
-                i build things for the web.
-                <br />
-                sometimes small software for personal use.
-                <br />
-                I'm some kind of agentic coder at this point.
-              </p>
+          <div className="relative z-10">
+            <p className="font-mono text-space-light/90 text-lg leading-relaxed">
+              <span className="text-nebula-primary">&gt;</span>{' '}
+              i&apos;m an agentic coder, and a few other things.
+              <br />
+              i build things for the web.
+              <br />
+              sometimes small software for personal use.
+              <br />
+              i also train and set up llm systems.
+            </p>
 
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {PROJECTS.map((p) => (
-                  <ProjectCard key={p.name} project={p} />
-                ))}
-              </div>
-
-              <ExpandableTopics keys={['BUILDER_MINDSET']} />
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {PROJECTS.map((p) => (
+                <ProjectCard key={p.name} project={p} />
+              ))}
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="hidden md:flex flex-shrink-0 items-end justify-center w-48 self-start mt-4"
-            >
-              <Image
-                src="/assets/tobi_s1_nobg.png"
-                alt="tobi"
-                width={200}
-                height={340}
-                className="object-contain"
-                style={{ filter: 'drop-shadow(0 0 20px rgba(99,102,241,0.4)) brightness(1.05)' }}
-              />
-            </motion.div>
+            <ExpandableTopics keys={['BUILDER_MINDSET']} />
           </div>
         </motion.section>
 
@@ -301,9 +320,11 @@ export default function Home() {
             <div className="flex-1 min-w-0 relative z-10">
               <p className="font-mono text-space-light/90 text-lg leading-relaxed">
                 <span className="text-nebula-primary">&gt;</span>{' '}
-                i read everything from topology to manga,
+                i read about concepts yet to be understood by you.
                 <br />
-                and write about the ideas that won&apos;t let me sleep.
+                everything from topology to underground mythical warfare.
+                <br />
+                i write about the ideas that won&apos;t let me sleep.
               </p>
 
               <div className="mt-6">
@@ -315,8 +336,9 @@ export default function Home() {
                   whileHover={{ scale: 1.03 }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-nebula-primary to-space-accent opacity-0 blur-xl rounded-lg group-hover:opacity-20 transition-all duration-300" />
-                  <span className="relative backdrop-blur-md bg-space-dark/40 border border-nebula-tertiary/20 rounded-lg px-4 py-2 text-nebula-secondary group-hover:border-nebula-secondary/40 transition-all duration-200">
-                    📝 jimnemorin.substack.com<span className="text-space-accent animate-pulse-slow">_</span>
+                  <span className="relative backdrop-blur-md bg-space-dark/40 border border-nebula-tertiary/20 rounded-lg px-4 py-2 text-nebula-secondary group-hover:border-nebula-secondary/40 transition-all duration-200 inline-flex items-center gap-2">
+                    <SubstackIcon className="w-4 h-4" />
+                    jimnemorin.substack.com<span className="text-space-accent animate-pulse-slow">_</span>
                   </span>
                 </motion.a>
               </div>
@@ -366,20 +388,25 @@ export default function Home() {
             <div className="flex-1 min-w-0 relative z-10">
               <p className="font-mono text-space-light/90 text-lg leading-relaxed">
                 <span className="text-nebula-primary">&gt;</span>{' '}
-                i&apos;m always chasing a more elegant way to understand the world.
+                i&apos;m always chasing a more elegant way to see and understand the world.
               </p>
               <p className="mt-4 font-mono text-space-light/70 text-base leading-relaxed">
-                now that we&apos;re in the singularity i&apos;m just trying to figure out how to live in there as a human.
-                <br /><br />
+                now that we&apos;re near the singularity i&apos;m just trying to figure out how to live in there as a human.
+              </p>
+              <p className="mt-6 font-mono text-space-light/90 text-base leading-relaxed">
+                <span className="text-nebula-primary">&gt;</span>{' '}
+                where do you think we are in this graph toward the singularity?
+              </p>
+              <SingularityGraph />
+              <p className="mt-6 font-mono text-space-light/70 text-base leading-relaxed">
                 now that i can prompt the agent:{' '}
                 <span className="text-nebula-secondary">&quot;figure out how to do x by any means possible&quot;</span>
                 {' '}what else do i need?
                 <br /><br />
-                i&apos;m just human after all.
+                i&apos;m just a human navigating a world i see, feel, but can&apos;t comprehend.
                 <br />
-                my time to do the{' '}
-                <span className="text-space-accent/80 italic">dirty work</span>
-                {' '}is done.
+                we are in the middle of a thing we may have{' '}
+                <span className="text-space-accent/80 italic">not chosen</span>.
               </p>
 
               <ExpandableTopics keys={['INTELLIGENCE_AUGMENTATION']} />
@@ -444,13 +471,7 @@ export default function Home() {
             <div className="flex-1 min-w-0 relative z-10">
               <p className="font-mono text-space-light/90 text-lg leading-relaxed">
                 <span className="text-nebula-primary">&gt;</span>{' '}
-                if you&apos;re building something cool, please share it with me.
-                <br />
-                i want to see.
-                <br />
-                <span className="text-space-light/50">
-                  now that there&apos;s not much left for me to do.
-                </span>
+                if you&apos;re building something cool, please share it with me for feedback.
               </p>
 
               <div className="mt-8">
@@ -480,7 +501,7 @@ export default function Home() {
                     className="group flex items-center gap-2 font-mono text-sm text-white/75 hover:text-nebula-secondary transition-colors duration-200"
                     whileHover={{ scale: 1.05 }}
                   >
-                    <span className="text-space-light/70 group-hover:text-nebula-secondary transition-colors">📝</span>
+                    <SubstackIcon className="w-4 h-4 text-space-light/70 group-hover:text-nebula-secondary transition-colors" />
                     <span>substack</span>
                   </motion.a>
                 </div>
