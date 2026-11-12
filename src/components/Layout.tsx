@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar/Navbar';
 import HexBackground from './HexBackground/HexBackground';
 import CircuitOverlay from './CircuitOverlay/CircuitOverlay';
+import PalettePicker from './PalettePicker';
 
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -77,6 +78,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </span>
         </motion.button>
       </motion.div>
+      <PalettePicker />
       <audio ref={audioRef} loop preload="auto">
         <source src="/assets/background-music.mp3" type="audio/mpeg" />
       </audio>

@@ -10,22 +10,22 @@ const config: Config = {
     extend: {
       colors: {
         space: {
-          dark: '#0F172A',
-          light: '#334155',
-          accent: '#6366F1',
-          glow: '#818CF8'
+          dark: 'var(--c-dark)',
+          light: 'var(--c-light)',
+          accent: 'var(--c-accent)',
+          glow: 'var(--c-glow)'
         },
         nebula: {
-          primary: '#4F46E5',
-          secondary: '#6366F1',
-          tertiary: '#A5B4FC'
+          primary: 'var(--c-primary)',
+          secondary: 'var(--c-secondary)',
+          tertiary: 'var(--c-tertiary)'
         }
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'space-grid': 'linear-gradient(to right, rgba(99, 102, 241, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(99, 102, 241, 0.1) 1px, transparent 1px)',
-        'nebula-glow': 'radial-gradient(circle at center, rgba(99, 102, 241, 0.2) 0%, transparent 70%)'
+        'space-grid': 'linear-gradient(to right, color-mix(in srgb, var(--c-secondary) 10%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--c-secondary) 10%, transparent) 1px, transparent 1px)',
+        'nebula-glow': 'radial-gradient(circle at center, color-mix(in srgb, var(--c-secondary) 20%, transparent) 0%, transparent 70%)'
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

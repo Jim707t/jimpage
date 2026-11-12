@@ -69,6 +69,7 @@ jest.mock('@/components/Layout', () => ({
 // ── import pages ─────────────────────────────────────────────────────────────
 
 import Home from '@/pages/index';
+import PalettePicker from '@/components/PalettePicker';
 import Navbar from '@/components/Navbar/Navbar';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -86,44 +87,14 @@ describe('Navbar', () => {
     expect(screen.getByText(/agentic coder, builder/i)).toBeInTheDocument();
   });
 
-  it('renders a profile image', () => {
+  it('has no profile image', () => {
     render(<Navbar />);
-    expect(screen.getByRole('img', { name: /profile/i })).toBeInTheDocument();
+    expect(screen.queryByRole('img', { name: /profile/i })).not.toBeInTheDocument();
   });
 
-  it('profile image is colored by default and toggles grayscale on click', () => {
+  it('has no links (github, services, projects removed)', () => {
     render(<Navbar />);
-    // re-query after each click: the mocked motion components remount the subtree on re-render
-    const profile = () => screen.getByRole('img', { name: /profile/i });
-    expect(profile()).not.toHaveClass('grayscale');
-    fireEvent.click(profile());
-    expect(profile()).toHaveClass('grayscale');
-    fireEvent.click(profile());
-    expect(profile()).not.toHaveClass('grayscale');
-  });
-
-  it('links to the services page', () => {
-    render(<Navbar />);
-    const link = screen.getAllByRole('link').find(
-      (a) => (a as HTMLAnchorElement).getAttribute('href') === '/services'
-    );
-    expect(link).toBeDefined();
-  });
-
-  it('links to GitHub', () => {
-    render(<Navbar />);
-    const link = screen.getAllByRole('link').find(
-      (a) => (a as HTMLAnchorElement).href.includes('github.com/jim707t')
-    );
-    expect(link).toBeDefined();
-  });
-
-  it('links to X / Twitter', () => {
-    render(<Navbar />);
-    const link = screen.getAllByRole('link').find(
-      (a) => (a as HTMLAnchorElement).href.includes('x.com/jimnemorin')
-    );
-    expect(link).toBeDefined();
+    expect(screen.queryAllByRole('link')).toHaveLength(0);
   });
 });
 
@@ -135,7 +106,7 @@ describe('Home page — conversational sections', () => {
   beforeEach(() => render(<Home />));
 
   it('renders the builder section text', () => {
-    expect(screen.getByText(/i build things for the web/i)).toBeInTheDocument();
+    expect(screen.getByText(/i see myself as an agentic coder/i)).toBeInTheDocument();
   });
 
   it('renders the builder llm line', () => {
@@ -143,77 +114,35 @@ describe('Home page — conversational sections', () => {
   });
 
   it('renders the reader section text', () => {
-    expect(screen.getByText(/topology to underground mythical warfare/i)).toBeInTheDocument();
+    expect(screen.getByText(/concepts that go out of the ordinary/i)).toBeInTheDocument();
+    expect(screen.getByText(/edits that share ideas/i)).toBeInTheDocument();
   });
 
-  it('renders the singularity section text', () => {
+  it('renders the interplanetary / elegant-world text', () => {
+    expect(screen.getByText(/interplanetary expansion/i)).toBeInTheDocument();
     expect(screen.getByText(/more elegant way to see and understand the world/i)).toBeInTheDocument();
   });
 
-  it('renders the singularity graph question and image', () => {
-    expect(screen.getByText(/where do you think we are in this graph/i)).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /singularity/i })).toBeInTheDocument();
-  });
-
-  it('renders the reach-out section text', () => {
-    expect(screen.getByText(/building something cool/i)).toBeInTheDocument();
-  });
-
-  it('renders the human-navigating closing lines', () => {
-    expect(screen.getByText(/navigating a world i see, feel/i)).toBeInTheDocument();
+  it('renders the human-from-earth closing lines', () => {
+    expect(screen.getByText(/human from earth navigating/i)).toBeInTheDocument();
     expect(screen.getByText(/not chosen/i)).toBeInTheDocument();
   });
 
-  it('says we are near the singularity, not in it', () => {
-    expect(screen.getByText(/near the singularity/i)).toBeInTheDocument();
-    expect(screen.queryByText(/we're in the singularity/i)).not.toBeInTheDocument();
+  it('no longer renders the singularity graph', () => {
+    expect(screen.queryByRole('img', { name: /singularity/i })).not.toBeInTheDocument();
+    expect(screen.queryByText(/where do you think we are in this graph/i)).not.toBeInTheDocument();
   });
 
-  it('renders share with me copy', () => {
-    expect(screen.getByText(/share it with me/i)).toBeInTheDocument();
-  });
-});
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Home page — projects
-// ─────────────────────────────────────────────────────────────────────────────
-
-describe('Home page — project cards', () => {
-  beforeEach(() => render(<Home />));
-
-  it('shows mostbased.space project', () => {
-    expect(screen.getByText(/mostbased\.space/i)).toBeInTheDocument();
+  it('renders the reach-out section text', () => {
+    expect(screen.getByText(/building something cool and want feedback/i)).toBeInTheDocument();
   });
 
-  it('shows the mostbased description with vote copy', () => {
-    expect(screen.getByText(/users vote on whether a figure is based or not/i)).toBeInTheDocument();
+  it('does not render project cards on the landing page', () => {
+    expect(screen.queryByText(/mostbased\.space/i)).not.toBeInTheDocument();
   });
 
-  it('shows csara project', () => {
-    expect(screen.getByText(/csara/i)).toBeInTheDocument();
-  });
-
-  it('mostbased card opens correct URL on click', () => {
-    const openSpy = jest.spyOn(window, 'open').mockImplementation(() => null);
-    const card = screen.getByText(/mostbased\.space/i).closest('[class]')!;
-    // Walk up to the clickable parent
-    fireEvent.click(card);
-    expect(openSpy).toHaveBeenCalledWith(
-      expect.stringContaining('mostbased.space'),
-      '_blank'
-    );
-    openSpy.mockRestore();
-  });
-
-  it('csara card opens the GitHub URL on click', () => {
-    const openSpy = jest.spyOn(window, 'open').mockImplementation(() => null);
-    const card = screen.getByText(/csara/i).closest('[class]')!;
-    fireEvent.click(card);
-    expect(openSpy).toHaveBeenCalledWith(
-      expect.stringContaining('github.com/Jim707t/csara'),
-      '_blank'
-    );
-    openSpy.mockRestore();
+  it('shows the github link in the builder section', () => {
+    expect(screen.getByText('github.com/jim707t')).toBeInTheDocument();
   });
 });
 
@@ -225,9 +154,6 @@ describe('Home page — social links', () => {
   beforeEach(() => render(<Home />));
 
   const socialCases: [string, string][] = [
-    ['X', 'x.com/jimnemorin'],
-    ['TikTok', 'tiktok.com/@jimnemorin'],
-    ['Instagram', 'instagram.com/jimnemorin'],
     ['GitHub', 'github.com/jim707t'],
     ['YouTube', 'youtube.com/@jimescapes'],
   ];
@@ -239,20 +165,36 @@ describe('Home page — social links', () => {
     expect(link).toBeDefined();
   });
 
-  it('shows the @jimnemorin handle for X / TikTok / Instagram', () => {
-    const handles = screen.getAllByText('@jimnemorin');
-    expect(handles.length).toBeGreaterThanOrEqual(3);
+  it('has a mailto link with the contact email', () => {
+    const link = screen.getAllByRole('link').find(
+      (a) => (a as HTMLAnchorElement).getAttribute('href') === 'mailto:jimnemorin@proton.me'
+    );
+    expect(link).toBeDefined();
+    expect(screen.getByText('jimnemorin@proton.me')).toBeInTheDocument();
+  });
+
+  it('no longer shows the "you can find me here" heading', () => {
+    expect(screen.queryByText(/you can find me here/i)).not.toBeInTheDocument();
+  });
+
+  it('has no X / TikTok / Instagram links', () => {
+    const removed = screen.getAllByRole('link').filter((a) =>
+      ['x.com/', 'tiktok.com', 'instagram.com'].some((d) =>
+        (a as HTMLAnchorElement).href.includes(d)
+      )
+    );
+    expect(removed).toHaveLength(0);
   });
 
   it('links open in a new tab (target=_blank)', () => {
     const socialLinks = screen.getAllByRole('link').filter(
       (a) =>
         (a as HTMLAnchorElement).target === '_blank' &&
-        ['x.com', 'tiktok.com', 'instagram.com', 'github.com', 'youtube.com'].some((d) =>
+        ['github.com', 'youtube.com'].some((d) =>
           (a as HTMLAnchorElement).href.includes(d)
         )
     );
-    expect(socialLinks.length).toBeGreaterThanOrEqual(5);
+    expect(socialLinks.length).toBeGreaterThanOrEqual(2);
     socialLinks.forEach((link) => {
       expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'));
     });
@@ -263,42 +205,12 @@ describe('Home page — social links', () => {
 // Home page — expandable interests
 // ─────────────────────────────────────────────────────────────────────────────
 
-describe('Home page — expandable topic tags', () => {
-  it('BUILDER MINDSET section is collapsed by default', () => {
+describe('Home page — topic tags removed', () => {
+  it('no longer renders the expandable topic lists', () => {
     render(<Home />);
-    expect(screen.queryByText(/Grand Projects Repository/i)).not.toBeInTheDocument();
-  });
-
-  it('clicking BUILDER MINDSET expands its items', () => {
-    render(<Home />);
-    const btn = screen.getByText(/BUILDER MINDSET/i);
-    fireEvent.click(btn);
-    expect(screen.getByText(/Grand Projects Repository/i)).toBeInTheDocument();
-    expect(screen.getByText(/Learning Chronicles/i)).toBeInTheDocument();
-  });
-
-  it('clicking again collapses BUILDER MINDSET', () => {
-    render(<Home />);
-    const btn = screen.getByText(/BUILDER MINDSET/i);
-    fireEvent.click(btn);
-    expect(screen.getByText(/Grand Projects Repository/i)).toBeInTheDocument();
-    fireEvent.click(btn);
-    expect(screen.queryByText(/Grand Projects Repository/i)).not.toBeInTheDocument();
-  });
-
-  it('expanding an item with content shows full detail on second click', () => {
-    render(<Home />);
-    fireEvent.click(screen.getByText(/UNIVERSE MAXXING/i));
-    const itemBtn = screen.getByText(/Cosmological Thoughts/i);
-    fireEvent.click(itemBtn);
-    expect(screen.getByText(/traveling into infinity/i)).toBeInTheDocument();
-  });
-
-  it('all four interest categories are rendered', () => {
-    render(<Home />);
-    ['BUILDER MINDSET', 'UNIVERSE MAXXING', 'PIVOTAL TURNS', 'INTELLIGENCE AUGMENTATION'].forEach(
-      (label) => expect(screen.getByText(new RegExp(label, 'i'))).toBeInTheDocument()
-    );
+    ['BUILDER MINDSET', 'UNIVERSE MAXXING', 'PIVOTAL TURNS', 'INTELLIGENCE AUGMENTATION'].forEach((t) => {
+      expect(screen.queryByText(t)).not.toBeInTheDocument();
+    });
   });
 });
 
@@ -334,5 +246,48 @@ describe('Home page — Substack', () => {
       (a as HTMLAnchorElement).href.includes('jimnemorin.substack.com')
     );
     expect(links.length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Palette picker
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('PalettePicker', () => {
+  afterEach(() => {
+    localStorage.clear();
+    document.documentElement.removeAttribute('style');
+  });
+
+  it('is closed by default and opens on click', () => {
+    render(<PalettePicker />);
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /change colour palette/i }));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('applies and saves a preset palette', () => {
+    render(<PalettePicker />);
+    fireEvent.click(screen.getByRole('button', { name: /change colour palette/i }));
+    fireEvent.click(screen.getByRole('button', { name: /ember palette/i }));
+    expect(document.documentElement.style.getPropertyValue('--c-accent')).toBe('#F97316');
+    expect(JSON.parse(localStorage.getItem('jimpage-palette')!).id).toBe('ember');
+  });
+
+  it('reset returns to the default and clears storage', () => {
+    render(<PalettePicker />);
+    fireEvent.click(screen.getByRole('button', { name: /change colour palette/i }));
+    fireEvent.click(screen.getByRole('button', { name: /rose palette/i }));
+    fireEvent.click(screen.getByRole('button', { name: /reset/i }));
+    expect(document.documentElement.style.getPropertyValue('--c-accent')).toBe('#6366F1');
+    expect(localStorage.getItem('jimpage-palette')).toBeNull();
+  });
+
+  it('applies a custom colour', () => {
+    render(<PalettePicker />);
+    fireEvent.click(screen.getByRole('button', { name: /change colour palette/i }));
+    fireEvent.change(screen.getByLabelText(/custom colour/i, { selector: 'input' }), { target: { value: '#ff00aa' } });
+    expect(document.documentElement.style.getPropertyValue('--c-accent')).toBe('#ff00aa');
+    expect(JSON.parse(localStorage.getItem('jimpage-palette')!).id).toBe('custom');
   });
 });
